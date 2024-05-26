@@ -76,18 +76,29 @@ class DBStorage:
         Retrieve one object based on class and ID, or None if not found.
         """
         if cls and id:
-            return self.__session.query(cls).get(id)
-        return None
-
+            if cls in classes.values() and isinstance(id, str):
+                all_objs = self.all(cls)
+                for key, value in all_objs.items():
+                    if key.split('.')[1] == id:
+                        return value
+            else:
+                return
+        return
+    
     def count(self, cls=None):
         """
         Count the number of objects in storage matching the given class.
         If no class is passed, returns the count of all objects in storage.
         """
-        if cls:
-            return self.__session.query(cls).count()
-        return sum(self.__session.query(model).count() for model in [State, City, User, Place, Review, Amenity])
-    
+        if not cls:
+            inst_of_all_cls = self.all()
+            return len(inst_of_all_cls)
+        if cls in classes.values():
+            all_inst_of_prev_cls = self.all(cls)
+            return len(all_inst_of_prev_cls)
+        if cls not in classes.values():
+            return
+
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()

@@ -116,17 +116,44 @@ class TestFileStorage(unittest.TestCase):
 
     def test_get(self):
         """Test the get method"""
-        new_state = State(name="California")
-        self.storage.new(new_state)
-        self.storage.save()
-        retrieved_state = self.storage.get(State, new_state.id)
-        self.assertEqual(new_state, retrieved_state)
+        storage = Filestorage()
+
+        storage.reload()
+
+        state_data = {"name": "California"}
+
+        state_instance = State(**state_data)
+        
+        storage.new(state_instance)
+
+        storage.save()
+
+        retrieved_state = storage.get(State, state_instance.id)
+
+        self.assertEqual(state_instance, retrieved_state)
+
+        fake_state = storage.get(State, "fake_id")
+
+        self.assertEqual(fake_state, None)
 
     def test_count(self):
         """Test the count method"""
-        initial_count = self.storage.count()
-        new_state = State(name="Nevada")
-        self.storage.new(new_state)
-        self.storage.save()
-        self.assertEqual(self.storage.count(), initial_count + 1)
-        self.assertEqual(self.storage.count(State), 1)
+        storage = FileStorage()
+        storage.reload()
+        state_data = {"name": "California"}
+        state_instance = State(**state_data)
+        storage.new(state_instance)
+
+        city_data = {"name": "San Francisco", "state_id": state_instance.id}
+        
+        city_instance = City(**city_data)
+
+        storage.new(city_instance)
+
+        storage.save()
+
+        state_ocurrences = storage.count(State)
+        self.assertEqual(state_ocurrences, len(storage.all(State)))
+
+        all_ocurrences = storage.count()
+        self.assertEqual(all_ocurrences, len(storage.all()))
