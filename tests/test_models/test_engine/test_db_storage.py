@@ -67,6 +67,7 @@ test_db_storage.py'])
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
 
+
 class TestDBStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
@@ -115,7 +116,9 @@ class TestDBStorage(unittest.TestCase):
 
         session = models.storage._DBStorage__session
 
-        retrieved_state = session.query(State).filter_by(id=new_state.id).first()
+        retrieved_state = session.query(State)\
+                                 .filter_by(id=new_state.id)\
+                                 .first()
 
         self.assertEqual(new_state.id, retrieved_state.id)
         self.assertEqual(new_state.name, retrieved_state.name)
@@ -152,7 +155,7 @@ class TestDBStorage(unittest.TestCase):
         storage.new(state_instance)
 
         city_data = {"name": "San Francisco", "state_id": state_instance.id}
-        
+
         city_instance = City(**city_data)
 
         storage.new(city_instance)
@@ -164,4 +167,3 @@ class TestDBStorage(unittest.TestCase):
 
         all_ocurrences = storage.count()
         self.assertEqual(all_ocurrences, len(storage.all()))
-

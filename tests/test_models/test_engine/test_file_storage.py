@@ -123,7 +123,7 @@ class TestFileStorage(unittest.TestCase):
         state_data = {"name": "California"}
 
         state_instance = State(**state_data)
-        
+
         storage.new(state_instance)
 
         storage.save()
@@ -145,7 +145,7 @@ class TestFileStorage(unittest.TestCase):
         storage.new(state_instance)
 
         city_data = {"name": "San Francisco", "state_id": state_instance.id}
-        
+
         city_instance = City(**city_data)
 
         storage.new(city_instance)
