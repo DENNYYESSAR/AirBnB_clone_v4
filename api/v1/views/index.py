@@ -6,13 +6,13 @@ from models import storage
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
-def get_status():
+def status():
     """ Returns the status of the API """
     return jsonify({"status": "OK"})
 
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
-def get_stats():
+def stats():
     """ Returns the number of each object type """
     classes = {
         'User': storage.count('User'),
@@ -23,5 +23,3 @@ def get_stats():
         'Review': storage.count('Review')
     }
     return jsonify(classes)
-
-
