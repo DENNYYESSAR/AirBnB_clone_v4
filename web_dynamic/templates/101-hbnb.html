@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AirBnB clone</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/icon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/4-common.css') }}?cache_id={{ cache_id }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/3-header.css') }}?cache_id={{ cache_id }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/3-footer.css') }}?cache_id={{ cache_id }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/6-filters.css') }}?cache_id={{ cache_id }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/8-places.css') }}?cache_id={{ cache_id }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='scripts/101-hbnb.js') }}?cache_id={{ cache_id }}"></script>
+</head>
+<body>
+    <header>
+        <div id="header_logo"></div>
+        <div id="api_status" class="api-status"></div>
+    </header>
+    <div class="container">
+        <section class="filters">
+            <button id="search_button">Search</button>
+            <div class="locations">
+                <h3>States</h3>
+                <h4>&nbsp;</h4>
+                <ul class="popover">
+                    {% for state in states %}
+                    <li><input type="checkbox" class="state" data-id="{{ state.id }}" data-name="{{ state.name }}"> {{ state.name }}<br></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="locations">
+                <h3>Cities</h3>
+                <h4>&nbsp;</h4>
+                <ul class="popover">
+                    {% for city in cities %}
+                    <li><input type="checkbox" class="city" data-id="{{ city.id }}" data-name="{{ city.name }}"> {{ city.name }}<br></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="amenities">
+                <h3>Amenities</h3>
+                <h4>&nbsp;</h4>
+                <ul class="popover">
+                    {% for amenity in amenities %}
+                    <li><input type="checkbox" class="amenity" data-id="{{ amenity.id }}" data-name="{{ amenity.name }}"> {{ amenity.name }}<br></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+        <section class="places">
+            <h1>Places</h1>
+        </section>
+    </div>
+    <footer>
+        <p>Holberton School</p>
+    </footer>
+</body>
+</html>
